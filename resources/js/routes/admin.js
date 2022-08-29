@@ -1,0 +1,145 @@
+import Dashboard  from '../Components/Admin/pages/Dashboard.vue'
+import Categories from '../Components/Admin/pages/category/categories.vue'
+import Category from '../Components/Admin/pages/category/category.vue'
+import CategoryCreate from '../Components/Admin/pages/category/create.vue'
+import CategoryEdit from '../Components/Admin/pages/category/edit.vue'
+import Products from '../Components/Admin/pages/product/products.vue'
+import Product from '../Components/Admin/pages/product/product.vue'
+import ProductEdit from '../Components/Admin/pages/product/edit.vue'
+import ProductCreate from '../Components/Admin/pages/product/create.vue'
+import Orders from '../Components/Admin/pages/order/orders.vue'
+import Order from '../Components/Admin/pages/order/order.vue'
+import Customers from '../Components/Admin/pages/customer/customers.vue'
+import Customer from '../Components/Admin/pages/customer/customer.vue'
+
+const routes = [
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboard,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/categories',
+        name: 'admin.categories',
+        component: Categories,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/category/:id(\\d+)',
+        name: 'admin.category',
+        component: Category,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/category/create',
+        name: 'admin.category.create',
+        component: CategoryCreate,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/category/:id(\\d+)/edit',
+        name: 'admin.category.edit',
+        component: CategoryEdit,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/products',
+        name: 'admin.products',
+        component: Products,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/products/:id(\\d+)',
+        name: 'admin.product',
+        component: Product,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/products/create',
+        name: 'admin.products.create',
+        component: ProductCreate,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/products/:id(\\d+)/edit',
+        name: 'admin.products.edit',
+        component: ProductEdit,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/orders',
+        name: 'admin.orders',
+        component: Orders,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/orders',
+        name: 'admin.orders',
+        component: Orders,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/orders/:id(\\d+)',
+        name: 'admin.orders.order',
+        component: Order,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/customers',
+        name: 'admin.customers',
+        component: Customers,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/customers/:id(\\d+)',
+        name: 'admin.customers.customer',
+        component: Customer,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    }
+
+];
+
+export default routes
