@@ -9,14 +9,13 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Fonts -->
-        <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
+        {{-- <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
         <style>
             body {
                 font-family: 'Nunito', sans-serif;
-            }
-        </style>
+            </style>
+            } --}}
 
     </head>
     <body class="antialiased">

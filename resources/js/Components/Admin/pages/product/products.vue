@@ -72,7 +72,7 @@
                                                     class="btn btn-primary">
                                                     <i class="fas fa-edit"></i>
                                                 </router-link>
-                                                <a @click.prevent="warning($event)" :data-id="product.id"
+                                                <a @click.prevent="warning(product.id)" :data-id="product.id"
                                                     class="btn btn-danger "><i class="fas fa-trash"></i>
                                                 </a>
 
@@ -91,6 +91,7 @@
         </div>
         <!-- /.container-fluid -->
     </div>
+
 </template>
 <script>
     import moment from 'moment'
@@ -113,8 +114,8 @@
                     console.log(err)
                 })
             },
-            warning($event) {
-                this._id = $event.target.dataset.id
+            warning(id) {
+                this._id = id
                 Swal.fire({
                     title: 'Warning!',
                     text: 'Do you want to delete this product!',
@@ -123,14 +124,13 @@
                     showCancelButton: true
                 }).then(res => {
                     if (res.isConfirmed) {
-                        this.deleteProduct()
+                        this.deleteProduct(id)
                     }
                 })
             },
-            async deleteProduct() {
+            async deleteProduct(id) {
 
-
-                await axios.delete("/api/products/" + this._id).then(res => {
+                await axios.delete(`/api/products/${id}`).then(res => {
 
                     Swal.fire({
                         title: 'deleted!',

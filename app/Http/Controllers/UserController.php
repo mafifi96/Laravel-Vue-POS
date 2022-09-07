@@ -7,9 +7,12 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Requests\CustomerRequest;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
@@ -21,50 +24,77 @@ class UserController extends Controller
 
     public function admin()
     {
-        $total_orders = Order::count();
+        $total_products = Product::count();
 
-        $total_cutomers = User::count();
+        $total_cutomers = User::with('roles')->get()->filter(function($user){
+            return $user->roles[0]->name == 'customer';
+        })->count();
+
+        $total_categories = Category::count();
 
         $total_sales = Order::sum("total_price");
 
         if ($total_sales < 1000000) {
 
             $total_sales = number_format($total_sales, 0, '.', ',') . "K";
-
         } elseif ($total_sales >= 1000000) {
 
             $total_sales = number_format($total_sales, 0, '.', ',') . "M";
         }
 
-        return view('admin.dashboard', ['total_customers' => $total_cutomers, 'total_orders' => $total_orders, 'total_sales' => $total_sales]);
+        return response()->json([
+            'total_customers' => $total_cutomers,
+            'total_products' => $total_products,
+            'total_sales' => $total_sales,
+            'total_categories' => $total_categories
+        ]
+        );
 
     }
 
-    public function customer()
+/*     public function customer()
     {
         $products = Auth::user()->cart;
 
         $total_price = Cart::where("user_id", Auth::id())->sum('price');
 
-       // return view('customer.profile', ['products' => $products, 'total_price' => $total_price]);
+        // return view('customer.profile', ['products' => $products, 'total_price' => $total_price]);
 
-       return response()->json(['products' => $products , 'totalPrice' => $total_price],200);
-
+        return response()->json(['products' => $products, 'totalPrice' => $total_price], 200);
     }
-
+ */
     public function customers()
     {
-        $customers = User::whereNotIn('id' , [Auth::id()])->get();
 
-        return view("admin.layouts.customer.customers" , ['customers' => $customers]);
+        /* $customers = User::with(['roles:c'=> function ($query) {
+            $query->where('name','customer');
+        }])->get();
+         */
+        $customers = User::with('roles')->get()->reject(function($user){
+            return $user->roles[0]->name == 'admin' || $user->roles[0]->name == 'supervisor';
+        });
+
+        return response()->json(['customers' => $customers]);
+    }
+
+    public function customersCreate(CustomerRequest $request)
+    {
+        $data = $request->validated();
+
+        $user = User::create($data);
+
+        $user->assignRole("customer");
+
+        return response()->json(['message' => 'User Created Successfully..!']);
     }
 
     public function checkout()
     {
 
-        if (Auth::check()) {return redirect("/customer");}
+        if (Auth::check()) {
+            return redirect("/customer");
+        }
         return view('guest.check');
-
     }
 
     public function customer_info(CustomerRequest $request)
@@ -84,12 +114,14 @@ class UserController extends Controller
 
         $cart = DB::update('update carts set user_id = ? where session_id = ?', [$u_id, $session_id]);
 
-        return response()->json(['message' => 'user logged in successfully' , 'status' => true],200);
+        return response()->json(['message' => 'user logged in successfully', 'status' => true], 200);
     }
 
     public function user_orders($id)
     {
-        if (auth()->id() != $id) {return back();}
+        if (auth()->id() != $id) {
+            return back();
+        }
 
         $user = User::findOrFail($id);
 
@@ -98,8 +130,5 @@ class UserController extends Controller
         $orders->load("products");
 
         return view("customer.orders", ['orders' => $orders, 'total_price' => $user->orders->sum('total_price')]);
-
     }
-
-
 }

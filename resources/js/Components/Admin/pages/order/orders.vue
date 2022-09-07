@@ -63,7 +63,7 @@ import moment from 'moment'
         },
         methods: {
             async getOrders() {
-                await axios.get("/api/admin/orders").then(res => {
+                await axios.get("/api/orders").then(res => {
 
                     this.orders = res.data.orders
 

@@ -26,7 +26,7 @@
                 return this.$route.meta.layout ? this.$route.meta.layout : this.DefaultLayout
             }
         },
-        mounted() {
+        created() {
 
         }
 

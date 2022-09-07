@@ -45,11 +45,9 @@
             return {
                 category: {},
                 Id: this.$route.params.id
-
             }
         },
         methods: {
-
             getCategory() {
                 axios.get("/api/categories/" + this.Id).then(res => {
 
@@ -70,7 +68,6 @@
         mounted() {
             this.getCategory()
         }
-
     }
 
 </script>

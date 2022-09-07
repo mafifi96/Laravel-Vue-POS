@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -14,25 +15,25 @@ use App\Models\User;
 
 class OrderController extends Controller
 {
-    public function confirm()
+    public function confirm(Request $request)
     {
 
-        $products = Cart::where('user_id', Auth::id())->get();
+        $products = collect($request->all()[0]);
 
-        if ($products->count() <= 0) {
-            return response()->json(['message'=>'cant confirm order', 'status'=> false],500);
-        }
-        $user = Auth::id();
+        $user = $request->all()[1];
 
-            DB::transaction(function () use ($products , $user) {
+        DB::transaction(function ()  use ($products, $user) {
 
-            $total_price = $products->sum('price');
+            $total_price = $products->reduce(function ($carry, $item) {
+
+                return $carry + ($item['price'] * $item['currentQuantity']);
+            });
 
             $data = [];
 
-            $items = $products->flatten()->pluck('quantity', 'product_id')->map(function ($value, $key) use ($data) {
+            $items = $products->mapToGroups(function ($item, $key) use (&$data) {
 
-                return $data[$key] = ['quantity' => $value];
+                return $data[$item['id']] = ['quantity' => $item['currentQuantity']];
 
             })->toArray();
 
@@ -43,16 +44,18 @@ class OrderController extends Controller
 
             ]);
 
-            $order->products()->attach($items);
+            $order->products()->attach($data);
 
-            Cart::where("user_id", $user)->delete();
+            foreach ($data as $key => $value) {
 
-            //event(new OrderConfirmed($order));
-
+                Product::find($key)->update([
+                    'quantity' => DB::raw("quantity - {$value['quantity']}")
+                ]);
+            }
         });
 
 
-        return response()->json(['message' => 'order confirmed' , 'status' => true],200);
+        return response()->json(['message' => 'order confirmed', 'status' => true], 200);
     }
     public function orders()
     {
@@ -62,32 +65,30 @@ class OrderController extends Controller
 
         return response()->json(['orders' => $orders]);
     }
-    public function order(Order $order){
-
-        return response()->json(['order' => $order->load(['user','products'])]);
-
-    }
-
-    public function customerOrders()
+    public function order(Order $order)
     {
 
-        $orders = auth()->user()->orders;
+        return response()->json(['order' => $order->load(['user', 'products'])]);
+    }
+
+    public function customerOrders($id)
+    {
+        $user = User::find($id);
+
+        $orders = $user->orders;
 
         $orders->load("products");
 
-        return response()->json(['orders' => $orders, 'total_price' => $orders->sum('total_price')],200);
-
+        return response()->json(['orders' => $orders, 'total_price' => $orders->sum('total_price')], 200);
     }
 
-    public function updateStatus(Request $request , Order $order){
+    public function updateStatus(Request $request, Order $order)
+    {
 
         //return dd($request->only('status'));
 
         $order->update($request->only('status'));
 
         return response(200);
-
     }
-
-
 }

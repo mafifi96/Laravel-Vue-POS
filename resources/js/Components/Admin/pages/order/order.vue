@@ -75,7 +75,8 @@ import moment from 'moment'
         data: function () {
             return {
                 order: null,
-                ID: this.$route.params.id,
+                OID: this.$route.params.oid,
+                CID : this.$route.params.cid,
                 status : ''
             }
         },
@@ -96,7 +97,7 @@ import moment from 'moment'
                formData.append('_method','PUT')
 
 
-                await axios.post("/api/admin/orders/"+this.ID+"/status",formData).then(res=>{
+                await axios.post("/api/orders/"+this.ID+"/status",formData).then(res=>{
 
                     Swal.fire({
                             title: 'Updated!',
@@ -123,6 +124,12 @@ import moment from 'moment'
                 if(o){
                     this.updateStatus()
                 }
+            },
+            OID : function(){
+                this.getOrder()
+            },
+            CID : function(){
+                this.getOrder()
             }
         },
         mounted() {

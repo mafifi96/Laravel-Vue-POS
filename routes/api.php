@@ -33,15 +33,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('api','admin')->group(function(){
+    Route::get("/admin/info", [UserController::class , 'admin']);
     Route::get("/products/create" , [ProductController::class , 'create']);
     Route::get("/customer/cart" , [ApiCart::class , 'customerCart']);
-    Route::post("/order/confirm" , [OrderController::class , 'confirm']);
     Route::get("/customer/orders" , [OrderController::class , 'customerOrders']);
+    Route::get('/customers' , [UserController::class , 'customers']);
+    Route::post('/customers' , [UserController::class , 'customersCreate']);
+    Route::get('/customers/{id}/orders' , [OrderController::class , 'customerOrders']);
+    //Route::get('/orders/{order}',[OrderController::class , 'order']);
+    Route::put('/orders/{order}/status',[OrderController::class , 'updateStatus']);
+    Route::post("/order/confirm" , [OrderController::class , 'confirm']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
-    Route::get('/admin/customers' , [UserController::class , 'customers']);
-    Route::get('/admin/orders' , [OrderController::class , 'orders']);
-    Route::get('/admin/orders/{order}',[OrderController::class , 'order']);
-    Route::put('/admin/orders/{order}/status',[OrderController::class , 'updateStatus']);
 
 });
 

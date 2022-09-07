@@ -21,11 +21,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                posts</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                products</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_products}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-paperclip fa-2x text-gray-300"></i>
+                            <i class="fab fa-product-hunt fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -39,10 +39,10 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 categories</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_categories}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa fa-credit-card fa-2x text-gray-300"></i>
+                            <i class="fas fa-list fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                users</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                customers</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_customers}}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -74,11 +74,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                views (monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">40,000</div>
+                                sales (monthly)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{total_sales}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-eye fa-2x text-gray-300"></i>
+                            <i class="fas fa-credit-card fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -152,11 +152,26 @@
 export default {
     data : () => ({
         total_sales : 0,
-        total_orders : 0,
-        total_customers:0
+        total_categories : 0,
+        total_customers:0,
+        total_products :0
       }),
+      methods: {
+          async getAdminInfo(){
+              await axios.get("/api/admin/info")
+              .then(res=>{
+                  this.total_sales = res.data.total_sales
+                  this.total_products = res.data.total_products
+                  this.total_customers = res.data.total_customers
+                  this.total_categories = res.data.total_categories
+              }).catch(err=>{
+                  console.log(err)
+              })
+          }
+      },
       mounted (){
           document.title = "Store | Dashboard"
+          this.getAdminInfo()
       }
 
 }

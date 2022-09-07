@@ -37,11 +37,13 @@
                                                 <input type="number" class="form-control" name="quantity" value=""
                                                     :placeholder="'in stock ' + product.quantity "
                                                     :max=product.quantity>
+
                                             </div>
+
                                         </div>
 
                                         <div class="col-md-2 pull-right">
-                                            <button @click.prevent="addToCart($event)" :data-title=product.title
+                                            <button @click.prevent="addToCart($event)" :data-title="product.title
                                                 :data-price=product.price :data-id=product.id
                                                 class="btn btn-primary addtocart" name="submit">Add</button>
                                         </div>
@@ -64,7 +66,6 @@
 </template>
 
 <script>
-
     import Spinner from '../inc/Spinner'
 
     export default {

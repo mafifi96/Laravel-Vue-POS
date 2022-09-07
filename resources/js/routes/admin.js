@@ -9,8 +9,14 @@ import ProductEdit from '../Components/Admin/pages/product/edit.vue'
 import ProductCreate from '../Components/Admin/pages/product/create.vue'
 import Orders from '../Components/Admin/pages/order/orders.vue'
 import Order from '../Components/Admin/pages/order/order.vue'
+import OrderCreate from '../Components/Admin/pages/order/create.vue'
+import OrderEdit from '../Components/Admin/pages/order/edit.vue'
 import Customers from '../Components/Admin/pages/customer/customers.vue'
 import Customer from '../Components/Admin/pages/customer/customer.vue'
+import CustomersCreate from '../Components/Admin/pages/customer/create.vue'
+import CustomersEdit from '../Components/Admin/pages/customer/edit.vue'
+
+
 
 const routes = [
     {
@@ -113,9 +119,27 @@ const routes = [
         }
     },
     {
-        path: '/admin/orders/:id(\\d+)',
-        name: 'admin.orders.order',
+        path: '/admin/customers/:cid(\\d+)/orders/:oid(\\d+)',
+        name: 'admin.customers.orders.order',
         component: Order,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/customers/:cid(\\d+)/orders/:oid(\\d+)/edit',
+        name: 'admin.customers.orders.edit',
+        component: OrderEdit,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/customers/:cid(\\d+)/orders/create',
+        name: 'admin.customers.orders.create',
+        component: OrderCreate,
         meta : {
             middleware : "admin",
             layout : "AdminLayout"
@@ -125,6 +149,24 @@ const routes = [
         path: '/admin/customers',
         name: 'admin.customers',
         component: Customers,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/customers/create',
+        name: 'admin.customers.create',
+        component: CustomersCreate,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/customers/:cid(\\d+)/edit',
+        name: 'admin.customers.edit',
+        component: CustomersEdit,
         meta : {
             middleware : "admin",
             layout : "AdminLayout"

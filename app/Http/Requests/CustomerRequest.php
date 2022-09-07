@@ -26,11 +26,9 @@ class CustomerRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required',
-            'avatar' => 'mimes:png,jpg,jpeg|max:2024',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
             'address' => 'required',
-            'pm_type' => 'required',
+            'password' => ''
         ];
     }
 }

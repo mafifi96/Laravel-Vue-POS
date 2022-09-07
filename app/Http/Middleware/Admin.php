@@ -21,7 +21,7 @@ class Admin
             return $next($request);
         }
 
-        return \App\Providers\RouteServiceProvider::redirectAuth();
+        return \App\Providers\RouteServiceProvider::HOME;
 
 
     }
