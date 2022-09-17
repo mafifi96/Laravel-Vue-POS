@@ -1,37 +1,38 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {
+    createRouter,
+    createWebHistory
+} from 'vue-router'
 import adminRoutes from './admin'
 import publicRoutes from './public'
 import customeRoutes from './customer'
 
-const routes = [...adminRoutes,...publicRoutes,...customeRoutes]
+const routes = [...adminRoutes, ...publicRoutes, ...customeRoutes]
 
 const router = createRouter({
-    history : createWebHistory(),
+    history: createWebHistory(),
     routes
 })
 
 
-/* function checkAuth()
-{
-    axios.get("/api/user").then(res=>{
-        return true
-    }).catch(e=>{
-        return false
-    })
-} */
-/* router.beforeEach((to,from)=>{
-    if (to.meta.middleware == "admin") {
-        let auth = checkAuth()
-        if(!auth)
-        {
-            localStorage.clear()
-            router.push({
-                    name: "login"
-                })
 
-        }
+router.beforeEach((to, from, next) => {
+    // to and from are both route objects. must call `next`.
+    if (to.meta.middleware == "admin") {
+
+        axios.get("/api/user").then(res=>{
+            next()
+        }).catch(err=>{
+
+            localStorage.clear()
+            next({
+                name: "login"
+            })
+        })
+
+    }else{
+        next()
     }
 })
- */
+
 
 export default router

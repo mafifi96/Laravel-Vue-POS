@@ -13,17 +13,11 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h6 class="h6 text-muted">Create New customer</h6>
-                            <div class="alert alert-danger" v-if="errors ">
-                                <ul>
-                                    <li v-for="error in errors" :key="error" class="text-sm">
-                                        {{ error[0] }}
-                                    </li>
-                                </ul>
-                            </div>
+                            <h6 class="h6 text-muted">Update Customer</h6>
+                            <Errors :errors="errors"></Errors>
                         </div>
 
-                        <div v-if="saved" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div v-if="saved" class="alert alert-success alert-dismissible fade show m-2" role="alert">
                             {{message}}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -50,10 +44,10 @@
                                 <input type="text" class="form-control form-control-user" v-model="customer.address"
                                     placeholder="address" required>
                             </div>
-                            <button :disabled="processing" @click.prevent="createCustomer()"
+                            <button :disabled="processing" @click.prevent="updateCustomer()"
                                 class="btn btn-primary btn-user btn-block">
-                                {{ processing ? "Saving..." : "Create" }}
-                                <img v-show="processing" src="/storage/assets/ajax.gif" alt="loading">
+                                {{ processing ? "Saving..." : "Update" }}
+                                <img v-show="processing" src="/imgs/ajax.gif" alt="loading">
                             </button>
 
                         </form>
@@ -70,7 +64,13 @@
 </template>
 
 <script>
+import Errors from '../../../inc/ValidationErrors.vue'
+
+
     export default {
+        components : {
+            Errors
+        },
         data: function () {
             return {
                 customer: {
@@ -92,7 +92,6 @@
 
             async updateCustomer() {
                 this.processing = true
-                console.table(this.customer)
 
                 await axios.post(`/api/customers/${this._id}`, this.customer)
                     .then(res => {
@@ -120,6 +119,7 @@
         mounted() {
 
             document.name = "Store | customer - Create"
+            this.getCustomer()
 
         },
         watch : {

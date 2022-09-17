@@ -19,7 +19,7 @@
                     <div class="card-header">
                         <h6 class="h6 text-muted">All Categories</h6>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>

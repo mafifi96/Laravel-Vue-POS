@@ -20,16 +20,16 @@
                         <div class="card-header">
                             <h6 class="h6 text-muted">All customers</h6>
                         </div>
-                        <div class="card-body">
-                            <table class="table table-bordered">
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">name</th>
                                         <th scope="col">phone</th>
                                         <th scope="col">email</th>
+                                        <th scope="col">address</th>
                                         <th scope="col">Careated At</th>
-                                        <th scope="col">Last Update</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -41,10 +41,10 @@
                                             <router-link :to="{name : 'admin.customers' , params : {id : customer.id}}">
                                                 {{customer.name}}</router-link>
                                         </td>
-                                        <td>{{customer.phone}}</td>
-                                        <td>{{customer.email ?? 'Not Found'}}</td>
+                                        <td>{{customer.phone ?? 'Not Provided'}}</td>
+                                        <td>{{customer.email ?? 'Not Provided'}}</td>
+                                        <td>{{customer.address ?? 'Not Provided'}}</td>
                                         <td>{{formateDate(customer.created_at)}}</td>
-                                        <td>{{formateDate(customer.updated_at)}}</td>
 
                                         <td>
                                             <div class="btn-group">

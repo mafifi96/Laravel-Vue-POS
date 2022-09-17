@@ -29,8 +29,7 @@ class ProductRequest extends FormRequest
             'description' => "required|min:5|max:1000",
             'price' => "required",
             'quantity'=> "required",
-            'category_id' => "required",
-            'brand_id'   => "required"
+            'category_id' => "required"
         ];
     }
 }

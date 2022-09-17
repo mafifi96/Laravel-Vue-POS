@@ -17,13 +17,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h6 class="h6 text-muted">Create New customer</h6>
-                            <div class="alert alert-danger" v-if="errors ">
-                                <ul>
-                                    <li v-for="error in errors" :key="error" class="text-sm">
-                                        {{ error[0] }}
-                                    </li>
-                                </ul>
-                            </div>
+                            <Errors :errors="errors"></Errors>
                         </div>
 
 
@@ -74,7 +68,12 @@
 </template>
 
 <script>
+import Errors from '../../../inc/ValidationErrors.vue'
+
     export default {
+        components : {
+            Errors
+        },
         data: function () {
             return {
                 customer: {

@@ -20,14 +20,7 @@
                                                 <h1 class="h4 text-gray-900 mb-4 text-capitalize">{{$t("Welcome Back!")}}
                                                 </h1>
                                             </div>
-                                            <div class="alert alert-danger"
-                                                v-if="errors && (errors.email || errors.password || errors.message)">
-                                                <div v-for="(v, k) in errors" :key="k">
-                                                    <p v-for="error in v" :key="error" class="text-sm">
-                                                        {{ $t('failed' , error) }}
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            <Errors :errors="errors"></Errors>
 
                                             <form class="user" @submit.prevent="login" method="post">
 
@@ -82,6 +75,8 @@
 </template>
 
 <script>
+import Errors from '../inc/ValidationErrors.vue'
+
     import {
         mapActions,
         mapGetters
@@ -89,6 +84,9 @@
     import { wTrans } from 'laravel-vue-i18n'
 
     export default {
+        components:{
+            Errors
+        },
         data() {
             return {
                 errors: null,

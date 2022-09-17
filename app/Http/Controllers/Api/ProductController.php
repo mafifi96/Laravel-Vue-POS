@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json(Product::with('images', 'category')->get());
+        return response()->json(Product::with('images', 'category')->latest()->get());
     }
 
     /**
@@ -34,9 +34,9 @@ class ProductController extends Controller
 
         $categories = Category::all('id', 'name');
 
-        $brands = ProductBrand::all('id', 'name');
+        //$brands = ProductBrand::all('id', 'name');
 
-        return response()->json(['categories' => $categories, 'brands' => $brands]);
+        return response()->json(['categories' => $categories]);
     }
 
     /**
@@ -63,8 +63,7 @@ class ProductController extends Controller
 
         $image = $product->images()->create(['image' => $file_name]);
 
-
-        return response()->json(['message' =>  'Product Saved Successfully', 'status' => true], 200);
+        return response()->json(['product'=>$product->id,'message' =>  'Product Saved Successfully', 'status' => true], 200);
 
     }
 
@@ -77,7 +76,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
-        return response()->json(['product' => $product->load(['images', 'brand', 'category'])], 200);
+        return response()->json(['product' => $product->load(['images', 'category'])], 200);
     }
 
     /**
@@ -88,7 +87,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return response()->json($product->load('images'));
+        return response()->json(['product' => $product->load('images')]);
     }
 
     /**
@@ -108,7 +107,7 @@ class ProductController extends Controller
 
         $product->update($request->except('image'));
 
-        if($request->has('image')){
+        if($request->hasFile('image')){
 
             $request->validate([
 
@@ -117,9 +116,10 @@ class ProductController extends Controller
 
             $file_name = $request->file('image')->storePublicly('public/covers');
 
-            $image = $product->images()->update(['image' => str_replace('public/','',$file_name)]);
+            $image = $product->images()->updateOrCreate(['image' => str_replace('public/','',$file_name)]);
 
         }
+
         return response()->json(['message' => "Product Updated"], 201);
     }
 

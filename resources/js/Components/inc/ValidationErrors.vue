@@ -1,19 +1,16 @@
 <template>
-    <div >
-
-        <div v-if="errors"  class="bg-red-500 text-white py-2 px-4 pr-0 rounded font-bold mb-4 shadow-lg">
-            <div v-for="(v, k) in errors" :key="k">
-                <p v-for="error in v" :key="error" class="text-sm">
-                    {{ error }}
-                </p>
-            </div>
-        </div>
-
+    <div class="alert alert-danger m-2" v-if="errors ">
+        <ul>
+            <li v-for="error in errors" :key="error" class="text-sm">
+                {{ error[0] }}
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
-export default {
-    props : ['errors']
-}
+    export default {
+        props: ['errors']
+    }
+
 </script>

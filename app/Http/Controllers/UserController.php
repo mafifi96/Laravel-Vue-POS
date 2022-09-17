@@ -26,8 +26,8 @@ class UserController extends Controller
     {
         $total_products = Product::count();
 
-        $total_cutomers = User::with('roles')->get()->filter(function($user){
-            return $user->roles[0]->name == 'customer';
+        $total_cutomers = User::whereHas('roles', function($query){
+            $query->where('name','customer');
         })->count();
 
         $total_categories = Category::count();
@@ -52,29 +52,17 @@ class UserController extends Controller
 
     }
 
-/*     public function customer()
-    {
-        $products = Auth::user()->cart;
-
-        $total_price = Cart::where("user_id", Auth::id())->sum('price');
-
-        // return view('customer.profile', ['products' => $products, 'total_price' => $total_price]);
-
-        return response()->json(['products' => $products, 'totalPrice' => $total_price], 200);
-    }
- */
     public function customers()
     {
 
-        /* $customers = User::with(['roles:c'=> function ($query) {
-            $query->where('name','customer');
-        }])->get();
-         */
-        $customers = User::with('roles')->get()->reject(function($user){
-            return $user->roles[0]->name == 'admin' || $user->roles[0]->name == 'supervisor';
-        });
+         $customers = User::whereHas("roles", function($query){
+
+            $query->where('name', 'customer');
+
+         })->get();
 
         return response()->json(['customers' => $customers]);
+
     }
 
     public function customersCreate(CustomerRequest $request)
@@ -86,35 +74,25 @@ class UserController extends Controller
         $user->assignRole("customer");
 
         return response()->json(['message' => 'User Created Successfully..!']);
+
     }
 
-    public function checkout()
+    public function customersUpdate(CustomerRequest $request , $id)
     {
+        $data = $request->validated();
 
-        if (Auth::check()) {
-            return redirect("/customer");
-        }
-        return view('guest.check');
+        $user = User::findOrFail($id);
+
+        $user->update($data);
+
+        return response()->json(['message' => 'User updated Successfully..!']);
     }
-
-    public function customer_info(CustomerRequest $request)
+    public function Customer($id)
     {
+        $customer = User::findOrFail($id);
 
-        $session_id = session()->getId();
+        return response()->json(['customer' => $customer, 'status' => true], 200);
 
-        $user = User::create($request->validated());
-
-        $user->assignRole("customer");
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        $u_id = Auth::id();
-
-        $cart = DB::update('update carts set user_id = ? where session_id = ?', [$u_id, $session_id]);
-
-        return response()->json(['message' => 'user logged in successfully', 'status' => true], 200);
     }
 
     public function user_orders($id)

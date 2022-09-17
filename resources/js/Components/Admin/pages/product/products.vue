@@ -33,8 +33,8 @@
                         <div class="card-header">
                             <h6 class="h6 text-muted">All products</h6>
                         </div>
-                        <div class="card-body">
-                            <table class="table table-bordered">
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -52,7 +52,7 @@
                                     <tr v-for="(product , index) in products" :key="product.id">
                                         <td scope="row">{{(index + 1)}}</td>
                                         <td>
-                                            <router-link :to="{name : 'admin.product' , params : {id : product.id}}">
+                                            <router-link :to="{name : 'admin.products.product' , params : {id : product.id}}">
                                                 {{product.title}}</router-link>
                                         </td>
                                         <td>{{product.price}}</td>
@@ -66,14 +66,14 @@
                                         <td>{{formateDate(product.updated_at)}}</td>
 
                                         <td>
-                                            <div class="btn-group">
+                                            <div class="btn-group" role="group">
                                                 <router-link
                                                     :to="{name : 'admin.products.edit', params : {id : product.id}}"
-                                                    class="btn btn-primary">
+                                                    class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                 </router-link>
                                                 <a @click.prevent="warning(product.id)" :data-id="product.id"
-                                                    class="btn btn-danger "><i class="fas fa-trash"></i>
+                                                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
                                                 </a>
 
                                             </div>

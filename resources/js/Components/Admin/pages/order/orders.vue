@@ -16,8 +16,8 @@
                     <div class="card-header">
                         <h6 class="h6 text-muted text-uppercase">all orders</h6>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-bordered">
+                    <div class="card-body table-responsive">
+                        <table class="table table-bordered text-center ">
                             <thead>
                                 <tr>
                                     <th scope="col">Id</th>
@@ -25,12 +25,14 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">Customer</th>
                                     <th scope="col">Careated At</th>
+                                    <th scope="col"></th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(order,index) in orders" :key="index">
                                     <td scope="row">
-                                        <router-link :to="{name :'admin.orders.order', params :{id : order.id}}">
+                                        <router-link :to="{name :'order', params :{id : order.id}}">
                                             {{order.id}}
                                         </router-link>
                                     </td>
@@ -38,6 +40,15 @@
                                     <td>&dollar;{{currency(order.total_price) }}</td>
                                     <td>{{order.user.name}}</td>
                                     <td>{{formateDate(order.created_at)}}</td>
+                                    <td>
+                                            <div class="btn-group" role="group">
+
+                                                <a @click.prevent="warning(order.id)" :data-id="order.id"
+                                                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                                                </a>
+
+                                            </div>
+                                        </td>
 
                                 </tr>
                             </tbody>
@@ -77,6 +88,43 @@ import moment from 'moment'
             currency(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            },
+            warning(id) {
+
+                Swal.fire({
+                    title: 'Warning!',
+                    text: 'Do you want to delete this order!',
+                    icon: 'warning',
+                    confirmButtonText: 'yes',
+                    showCancelButton: true
+                }).then(res => {
+                    if (res.isConfirmed) {
+                        this.deleteOrder(id)
+                    }
+                })
+            },
+            async deleteOrder(id) {
+
+                await axios.delete(`/api/orders/${id}`).then(res => {
+
+                    Swal.fire({
+                        title: 'deleted!',
+                        text: 'Order Deleted Successfully..!',
+                        icon: 'success',
+                        showCancelButton: true
+                    })
+                    this.getOrders()
+                }).catch(err => {
+
+                    Swal.fire({
+                        title: 'error!',
+                        text: 'something went wrong..!',
+                        icon: 'error',
+                        showCancelButton: true
+                    })
+
+                })
+
             }
         },
         mounted() {

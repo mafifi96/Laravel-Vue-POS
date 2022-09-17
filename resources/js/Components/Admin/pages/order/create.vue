@@ -98,21 +98,21 @@
                                             Customer`s Orders
                                         </div>
                                         <div class="card-body">
-                                            <div class="accordion" id="accordion">
+                                            <div class="accordion" id="oaccordion">
 
                                                 <div class="accordion-item" v-for="(order , index) in orders"
                                                     :key="index">
-                                                    <h2 class="accordion-header" :id="'heading'+index">
+                                                    <h2 class="accordion-header" :id="'oheading'+index">
                                                         <button class="accordion-button collapsed" type="button"
                                                             data-bs-toggle="collapse"
-                                                            :data-bs-target="'#collapse'+index" aria-expanded="false"
-                                                            :aria-controls="'collapse'+index">
+                                                            :data-bs-target="'#ocollapse'+index" aria-expanded="false"
+                                                            :aria-controls="'ocollapse'+index">
                                                             {{formateDate(order.created_at)}}
                                                         </button>
                                                     </h2>
-                                                    <div :id="'collapse'+index" class="accordion-collapse collapse"
-                                                        :aria-labelledby="'heading'+index" data-bs-parent="#accordion">
-                                                        <div class="accordion-body">
+                                                    <div :id="'ocollapse'+index" class="accordion-collapse collapse"
+                                                        :aria-labelledby="'oheading'+index" data-bs-parent="#oaccordion">
+                                                        <div class="accordion-body table-responsive">
                                                             <table class="table ">
                                                                 <thead>
                                                                     <tr>
@@ -126,7 +126,7 @@
                                                                         :key="index">
                                                                         <td scope="row">
                                                                             <router-link
-                                                                                :to="{name :'admin.product', params :{id : product.id}}">
+                                                                                :to="{name :'admin.products.product', params :{id : product.id}}">
                                                                                 {{product.title}}
                                                                             </router-link>
                                                                         </td>
@@ -158,21 +158,21 @@
                                         </div>
                                         <div class="card-body">
 
-                                            <div class="accordion" id="accordion">
+                                            <div class="accordion" id="caccordion">
 
                                                 <div class="accordion-item" v-for="(category , index) in categories"
                                                     :key="index">
-                                                    <h2 class="accordion-header" :id="'heading'+index">
+                                                    <h2 class="accordion-header" :id="'cheading'+index">
                                                         <button class="accordion-button collapsed" type="button"
                                                             data-bs-toggle="collapse"
-                                                            :data-bs-target="'#collapse'+index" aria-expanded="false"
-                                                            :aria-controls="'collapse'+index">
+                                                            :data-bs-target="'#ccollapse'+index" aria-expanded="false"
+                                                            :aria-controls="'ccollapse'+index">
                                                             {{category.name}}
                                                         </button>
                                                     </h2>
-                                                    <div :id="'collapse'+index" class="accordion-collapse collapse"
-                                                        :aria-labelledby="'heading'+index" data-bs-parent="#accordion">
-                                                        <div class="accordion-body">
+                                                    <div :id="'ccollapse'+index" class="accordion-collapse collapse"
+                                                        :aria-labelledby="'cheading'+index" data-bs-parent="#caccordion">
+                                                        <div class="accordion-body table-responsive">
                                                             <table class="table ">
                                                                 <thead>
                                                                     <tr>
@@ -187,7 +187,7 @@
                                                                         :key="index">
                                                                         <td scope="row">
                                                                             <router-link
-                                                                                :to="{name :'admin.product', params :{id : product.id}}">
+                                                                                :to="{name :'admin.products.product', params :{id : product.id}}">
                                                                                 {{product.title}}
                                                                             </router-link>
                                                                         </td>
@@ -327,6 +327,7 @@
                 }).finally(() => {
                     this.processing = false
                     this.getCategories()
+                    this.getOrders()
                 })
             }
         },

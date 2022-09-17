@@ -15,65 +15,51 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\CheckerController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\GuestController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\Api\CartController As ApiCart;
 use App\Http\Controllers\Api\OrderController;
-use App\Models\Product;
-use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\SupervisorController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user()->load('roles');
 });
 
 Route::middleware('api','admin')->group(function(){
-    Route::get("/admin/info", [UserController::class , 'admin']);
+
+    Route::get('/orders/{id}',[OrderController::class , 'show']);
+    Route::get("/admin/info", [AdminController::class , 'index']);
     Route::get("/products/create" , [ProductController::class , 'create']);
-    Route::get("/customer/cart" , [ApiCart::class , 'customerCart']);
-    Route::get("/customer/orders" , [OrderController::class , 'customerOrders']);
-    Route::get('/customers' , [UserController::class , 'customers']);
-    Route::post('/customers' , [UserController::class , 'customersCreate']);
-    Route::get('/customers/{id}/orders' , [OrderController::class , 'customerOrders']);
-    //Route::get('/orders/{order}',[OrderController::class , 'order']);
+    Route::get('/customers' , [CustomerController::class , 'index']);
+    Route::post('/customers' , [CustomerController::class , 'store']);
+    Route::post('/customers/{id}' , [CustomerController::class , 'update']);
+    Route::get('/customers/{id}/orders' , [CustomerController::class , 'show']);
+    Route::get('/customers/{id}/edit' , [CustomerController::class , 'edit']);
+    Route::get('/orders',[OrderController::class , 'index']);
+    Route::delete('/orders/{id}',[OrderController::class , 'destroy']);
     Route::put('/orders/{order}/status',[OrderController::class , 'updateStatus']);
     Route::post("/order/confirm" , [OrderController::class , 'confirm']);
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::resource("supervisors",SupervisorController::class);
 
-});
 
-Route::post('/session', function () {
-    $session = session()->getId();
-    return response()->json(['message' => $session]);
 });
 
 Route::post('/setLang', function (Request $request) {
 
     App::setLocale($request->_lang);
 
-    //return response()->json(['lang' => $request->_lang , 'translate'=>require lang_path($request->_lang . "/translation.php")]);
 });
 
 //general routes
 Route::apiResource('products', ProductController::class);
 Route::apiResource('categories', CategoryController::class);
-Route::post("/productss/{product}", function(Request $request , Product $product ){
-    return response()->json(dd($request->all()));
-});
-/* -- */
 
-Route::get('/brand/{brand}', [GuestController::class, 'brand'])->where(['brand' => '[0-9]+']);
-Route::get("/search", [GuestController::class, 'search']);
-Route::get("/cart", [CartController::class, 'index']);
-Route::post("/cart/add", [CartController::class, 'add']);
-Route::post("/cart/quantity", [CartController::class, 'cart_quantity']);
-Route::post("/cart/delete", [CartController::class, 'destroy']);
-Route::post('/customer/info', [UserController::class, 'customer_info']);
 
 // Auth Routes
 Route::post('/checkAuth', [CheckerController::class, 'Check']);

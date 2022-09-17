@@ -10,6 +10,7 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Ability;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -67,7 +68,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function abilities()
     {
-        return $this->roles->map->abilities->flatten()->pluck('name')->unique();
+        return $this->belongsToMany(Ability::class, "user_ability");
+    }
+
+    public function allowTo($ability)
+    {
+
+        $this->abilities()->sync($ability);
     }
 
 

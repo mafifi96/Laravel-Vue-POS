@@ -6,7 +6,6 @@
             <!-- Page header -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">Products</h1>
-
             </div>
 
             <!-- Content Row -->
@@ -17,17 +16,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h6 class="h6 text-muted">Edit Product</h6>
-                            <div class="alert alert-danger" v-if="errors ">
-                                <ul>
-                                    <li v-for="error in errors" :key="error" class="text-sm">
-                                        {{ error[0] }}
-                                    </li>
-                                </ul>
-                            </div>
+                            <Errors :errors="errors"></Errors>
                         </div>
 
-
-                        <div v-if="saved" class="alert alert-success alert-dismissible fade show" role="alert">
+                        <div v-if="saved" class="alert alert-success alert-dismissible fade show m-3" role="alert">
                             {{message}}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -42,11 +34,11 @@
                             </div>
                             <div>
                                 <img class="img-thumbnail" style="display: block; width:100%;height:70%"
-                                    :src="'/storage/'+ product.images[0].image" :alt="product.title"
+                                    :src="'/storage/'+ product.image" :alt="product.title"
                                     :title="product.title" id="cover">
                             </div>
                             <div class="form-group">
-                                <input type="file" name="image" class="form-control form-control-user"
+                                <input type="file" name="image" id="file" class="form-control form-control-user"
                                     v-on:change="product.image = $event.target.files[0]" placeholder="image" required>
                             </div>
                             <div class="form-group">
@@ -61,15 +53,6 @@
                                 <input class="form-control form-control-user" v-model="product.quantity" type="number"
                                     required placeholder="quantity">
                             </div>
-                            <div class="form-group">
-                                <select v-model="product.brand_id" class="form-control form-control-user">
-                                    <option value="" selected>--Brand--</option>
-
-                                    <option v-for="(brand , index) in brands" :value="brand.id">{{brand.name}}
-                                    </option>
-
-                                </select>
-                            </div>
 
                             <div class="form-group">
                                 <select v-model="product.category_id" class="form-control form-control-user">
@@ -82,7 +65,7 @@
                             <button :disabled="processing" @click.prevent="updateProduct()"
                                 class="btn btn-primary btn-user btn-block">
                                 {{ processing ? "Saving..." : "Save" }}
-                                <img v-show="processing" src="/storage/assets/ajax.gif" alt="loading">
+                                <img v-show="processing" src="/imgs/ajax.gif" alt="loading">
                             </button>
                         </form>
                     </div>
@@ -98,7 +81,12 @@
 </template>
 
 <script>
+import Errors from '../../../inc/ValidationErrors.vue'
+
     export default {
+        components : {
+            Errors
+        },
         data: function () {
             return {
                 product: {
@@ -107,9 +95,8 @@
                     image: null,
                     price: null,
                     quantity: null,
-                    brand_id: null,
+                    images :null,
                     category_id: null,
-                    images: null,
                     categories: null,
 
                 },
@@ -124,14 +111,7 @@
             }
         },
         methods: {
-            onChanged($event) {
 
-                this.product.image = $event.target.files[0];
-                $("#cover").attr("src", this.product.image)
-
-                console.log(new FormData(this.product.image))
-
-            },
             async getCategoriesAndBrands() {
                await axios.get("/api/products/create").then(res => {
 
@@ -162,8 +142,8 @@
 
                 formData.append('_method', 'PATCH')
                 formData.append('_token', this.csrf)
-
-                await axios.post("/api/products/" + this.ID, formData, {
+                console.table(formData)
+                await axios.post(`/api/products/${this.ID}`, formData, {
                     headers : {
                         'content-type' : 'multipart/form-data'
                     }
@@ -193,9 +173,12 @@
             },
             async getProduct() {
                await axios.get("/api/products/" + this.ID).then(res => {
+
                     this.product = res.data.product
 
                     document.title = "Store | Edit - " + this.product.title
+
+                    this.product.image = res.data.product.images[0].image
 
 
                 }).catch(err => {
@@ -208,6 +191,21 @@
             this.getCategoriesAndBrands()
             this.getProduct()
             document.title = "Store | Product - Edit"
+
+            $("#file").change(function () {
+
+                    $("#cover-thumbnail").removeClass("d-none");
+                    const file = this.files[0];
+                    if (file) {
+                        let reader = new FileReader();
+                        reader.onload = function (event) {
+                            $("#cover")
+                                .attr("src", event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
 
         }
 

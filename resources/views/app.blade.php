@@ -6,17 +6,10 @@
         <meta name="csrf-token" content="{{csrf_token()}}">
 
         <title>Laravel</title>
+        <link rel="stylesheet" href="{{asset("css/all.min.css")}}">
+        <link rel="stylesheet" href="{{asset("css/fontawesome.min.css")}}">
+        <script src="{{asset("js/fontawesome.min.js")}}"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <!-- Fonts -->
-        {{-- <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-            </style>
-            } --}}
-
     </head>
     <body class="antialiased">
         <div id="app">

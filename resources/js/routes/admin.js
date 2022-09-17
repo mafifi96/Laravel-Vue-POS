@@ -15,6 +15,10 @@ import Customers from '../Components/Admin/pages/customer/customers.vue'
 import Customer from '../Components/Admin/pages/customer/customer.vue'
 import CustomersCreate from '../Components/Admin/pages/customer/create.vue'
 import CustomersEdit from '../Components/Admin/pages/customer/edit.vue'
+import Supervisors from '../Components/Admin/pages/supervisor/supervisors.vue'
+import Supervisor from '../Components/Admin/pages/supervisor/supervisor.vue'
+import SupervisorsCreate from '../Components/Admin/pages/supervisor/create.vue'
+import SupervisorsEdit from '../Components/Admin/pages/supervisor/edit.vue'
 
 
 
@@ -75,7 +79,7 @@ const routes = [
     },
     {
         path: '/admin/products/:id(\\d+)',
-        name: 'admin.product',
+        name: 'admin.products.product',
         component: Product,
         meta : {
             middleware : "admin",
@@ -110,17 +114,8 @@ const routes = [
         }
     },
     {
-        path: '/admin/orders',
-        name: 'admin.orders',
-        component: Orders,
-        meta : {
-            middleware : "admin",
-            layout : "AdminLayout"
-        }
-    },
-    {
-        path: '/admin/customers/:cid(\\d+)/orders/:oid(\\d+)',
-        name: 'admin.customers.orders.order',
+        path: '/admin/orders/:id(\\d+)',
+        name: 'order',
         component: Order,
         meta : {
             middleware : "admin",
@@ -176,6 +171,42 @@ const routes = [
         path: '/admin/customers/:id(\\d+)',
         name: 'admin.customers.customer',
         component: Customer,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/supervisors',
+        name: 'admin.supervisors',
+        component: Supervisors,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/supervisors/:id(\\d+)',
+        name: 'admin.supervisors.supervisor',
+        component: Supervisor,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/supervisors/:id(\\d+)/edit',
+        name: 'admin.supervisors.edit',
+        component: SupervisorsEdit,
+        meta : {
+            middleware : "admin",
+            layout : "AdminLayout"
+        }
+    },
+    {
+        path: '/admin/supervisors/create',
+        name: 'admin.supervisors.create',
+        component: SupervisorsCreate,
         meta : {
             middleware : "admin",
             layout : "AdminLayout"

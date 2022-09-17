@@ -57,7 +57,7 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'order confirmed', 'status' => true], 200);
     }
-    public function orders()
+    public function index()
     {
         $orders = Order::latest()->get();
 
@@ -65,27 +65,22 @@ class OrderController extends Controller
 
         return response()->json(['orders' => $orders]);
     }
-    public function order(Order $order)
+    public function show($id)
     {
-
-        return response()->json(['order' => $order->load(['user', 'products'])]);
+        $order = Order::findOrFail($id);
+        $order->load('user', 'products');
+        return response()->json(['order' => $order]);
     }
-
-    public function customerOrders($id)
+    public function destroy($id)
     {
-        $user = User::find($id);
+        $order = Order::findOrFail($id);
+        $order->delete();
 
-        $orders = $user->orders;
-
-        $orders->load("products");
-
-        return response()->json(['orders' => $orders, 'total_price' => $orders->sum('total_price')], 200);
+        return response()->noContent();
     }
 
     public function updateStatus(Request $request, Order $order)
     {
-
-        //return dd($request->only('status'));
 
         $order->update($request->only('status'));
 
