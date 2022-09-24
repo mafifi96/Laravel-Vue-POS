@@ -7,6 +7,7 @@ use App\Models\Ability;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class SupervisorController extends Controller
 {
@@ -53,10 +54,11 @@ class SupervisorController extends Controller
         $user = new User;
         $user->email = $request->email;
         $user->name = $request->name;
-        $user->password = $data['password'];
+        $user->password = Hash::make($request->password);
         $user->phone = $request->phone;
         $user->address = $request->address;
         $user->save();
+
         $user->assignRole("supervisor");
 
         if ($request->has('abilities')) {
@@ -64,7 +66,6 @@ class SupervisorController extends Controller
         } else {
             $user->abilities()->delete();
         }
-
 
         return response()->json(['message' => 'User Created Successfully..!']);
     }
@@ -117,7 +118,8 @@ class SupervisorController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'phone' => '',
-            'address' => ''
+            'address' => '',
+            'password' => ''
         ]);
 
         $user = User::findOrFail($id);
@@ -128,6 +130,11 @@ class SupervisorController extends Controller
             $user->allowTo($request->abilities);
         } else {
             $user->abilities()->delete();
+        }
+
+        if($request->has('password')){
+            $user->password = Hash::make($request->password);
+            $user->save();
         }
 
         return response()->json(['message' => 'User updated Successfully..!']);

@@ -38,6 +38,10 @@
                                 <input type="email" class="form-control form-control-user" v-model="supervisor.email"
                                     placeholder="email">
                             </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control form-control-user" v-model="supervisor.password"
+                                    placeholder="password">
+                            </div>
 
                             <div class="form-group">
                                 <input type="number" class="form-control form-control-user" v-model="supervisor.phone"
@@ -214,7 +218,7 @@
                     email: null,
                     phone: null,
                     address: null,
-                    password: "$$hashedPassword200",
+                    password: null,
                     abilities: []
                 },
                 saved: false,

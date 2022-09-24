@@ -128,9 +128,9 @@ import Errors from '../inc/ValidationErrors.vue'
                         name: 'dashboard'
                     })
 
-                } else if (this.$store.getters.isCustomer) {
+                } else if (this.$store.getters.isSupervisor) {
                     this.$router.push({
-                        name: 'customer'
+                        name: 'supervisor.dashboard'
                     })
                 }
             }

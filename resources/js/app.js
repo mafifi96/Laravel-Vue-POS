@@ -18,11 +18,49 @@ const app = createApp({
     }
 })
 
-
-
 app.use(i18nVue, {
     lang: store.getters.getLang ,
     resolve: lang => import(`../../lang/${lang}.json`),
 })
 
-app.use(router).use(store).mount("#app")
+app.use(store).use(router).mount("#app")
+
+
+
+/* setTimeout(function () {
+    axios.get("/api/user").then(res=>{
+
+    }).catch(err=>{
+         localStorage.clear()
+
+        router.push({name: 'login'})
+
+    })
+}, 500)
+*/
+/* router.beforeEach((to, from, next) => {
+
+    if (to.meta.middleware == "admin" || to.meta.middleware == "supervisor") {
+
+        if (store.getters.isAdmin && store.getters.authenticated) {
+            next()
+        } else {
+            localStorage.clear()
+
+            next({name: "login"})
+        }
+
+        if (store.getters.isSupervisor && store.getters.authenticated) {
+            next()
+        } else {
+            localStorage.clear()
+
+            next({name: "login"})
+        }
+
+
+    } else {
+        next()
+    }
+})
+ */

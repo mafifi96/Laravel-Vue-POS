@@ -10,7 +10,6 @@ const store = createStore({
     ],
     state() {
         return {
-            CartQuantity: 0,
             authenticated: false,
             user: {},
             _lang : 'en',
@@ -20,9 +19,6 @@ const store = createStore({
     },
     mutations: {
 
-        UPDATE_QUANTITY(state, payload) {
-            state.CartQuantity = payload
-        },
         SET_AUTHENTICATED(state, payload) {
             state.authenticated = payload
         },
@@ -38,19 +34,6 @@ const store = createStore({
 
     },
     actions: {
-        Quantity({commit}) {
-            axios.post("/api/cart/quantity").then(res => {
-
-                commit("UPDATE_QUANTITY", Number(res.data.quantity))
-
-            }).catch(err => {
-
-                console.log("failed to get quantity!")
-
-                console.log(err)
-
-            })
-        },
 
         login({
             commit
@@ -94,9 +77,7 @@ const store = createStore({
         }
     },
     getters: {
-        quantity(state) {
-            return state.CartQuantity
-        },
+
         authenticated(state) {
             return state.authenticated
         },
@@ -109,9 +90,9 @@ const store = createStore({
             }
             return false
         },
-        isCustomer(state) {
+        isSupervisor(state) {
             if (Object.keys(state.user).length != 0) {
-                return state.user.roles[0].name == "customer" ? true : false;
+                return state.user.roles[0].name == "supervisor" ? true : false;
             }
             return false
         },

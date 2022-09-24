@@ -34,7 +34,10 @@
                                 <input type="email" class="form-control form-control-user" v-model="supervisor.email"
                                     placeholder="email">
                             </div>
-
+                            <div class="form-group">
+                                <input type="password" class="form-control form-control-user" v-model="supervisor.password"
+                                    placeholder="password">
+                            </div>
                             <div class="form-group">
                                 <input type="number" class="form-control form-control-user" v-model="supervisor.phone"
                                     placeholder="phone" required>
@@ -210,6 +213,7 @@
                     email: null,
                     phone: null,
                     address: null,
+                    password : null,
                     abilities : [],
                     _method: "UPDATE"
                 },
@@ -249,6 +253,7 @@
                     .then(res => {
                         this.supervisor = res.data.supervisor
                         this.abilities = res.data.userAbilities
+                        this.supervisor.password = null
                     }).catch(err => {
                         console.log(err)
                         console.log("error to get supervisor")

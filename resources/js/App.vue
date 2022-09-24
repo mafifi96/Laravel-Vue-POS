@@ -8,13 +8,13 @@
 <script>
     import StoreLayout from './Layouts/StoreLayout.vue'
     import AdminLayout from './Layouts/AdminLayout.vue'
-    import CustomerLayout from './Layouts/CustomerLayout.vue'
+    import SupervisorLayout from './Layouts/SupervisorLayout.vue'
 
     export default {
         components: {
             StoreLayout,
             AdminLayout,
-            CustomerLayout
+            SupervisorLayout
         },
         data: function () {
             return {
@@ -25,9 +25,6 @@
             layout() {
                 return this.$route.meta.layout ? this.$route.meta.layout : this.DefaultLayout
             }
-        },
-        created() {
-
         }
 
     }

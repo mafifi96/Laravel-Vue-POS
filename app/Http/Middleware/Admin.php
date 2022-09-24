@@ -21,7 +21,7 @@ class Admin
             return $next($request);
         }
 
-        return \App\Providers\RouteServiceProvider::HOME;
+        return response()->noContent();
 
 
     }

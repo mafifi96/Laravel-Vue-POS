@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-class Customer
+class Supervisor
 {
     /**
      * Handle an incoming request.
@@ -18,12 +18,12 @@ class Customer
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->roles[0]->name == 'customer') {
+        if (Auth::check() && Auth::user()->roles[0]->name == 'supervisor') {
 
             return $next($request);
         }
-        return \App\Providers\RouteServiceProvider::redirectAuth();
 
+        return response()->noContent();
 
     }
 }
