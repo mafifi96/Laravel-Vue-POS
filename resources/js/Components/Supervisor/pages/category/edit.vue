@@ -72,7 +72,7 @@
         methods: {
             updateCategory() {
                 this.processing = true
-                axios.put("/api/sv/categories/" + this.id, {
+                axios.put("/api/categories/" + this.id, {
                     name: this.name,
                     description: this.desc
                 }).then(res => {
@@ -88,7 +88,7 @@
             },
             getCategory() {
 
-                axios.get("/api/sv/categories/" + this.id).then(res => {
+                axios.get("/api/categories/" + this.id).then(res => {
 
                     this.Category = res.data;
 

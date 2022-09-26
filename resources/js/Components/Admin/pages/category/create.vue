@@ -30,7 +30,7 @@
 
                     </div>
                     <div class="card-body">
-                        <form @submit.prevent="createCategory()">
+                        <form >
 
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" v-model="name" name="name"
@@ -40,10 +40,12 @@
                                 <textarea class="form-control form-control-user" v-model="desc" name="description"
                                     placeholder="Description"></textarea>
                             </div>
-                            <button  @click="this.disabled='disabled';this.closest('form').submit();" type="submit"
-                                class="addcat btn btn-primary btn-user btn-block">
-                                Create
+                            <button :disabled="processing" @click.prevent="createCategory()"
+                                class="btn btn-primary btn-user btn-block">
+                                {{ processing ? "Saving..." : "Create" }}
+                                <img v-show="processing" src="/imgs/ajax.gif" alt="loading">
                             </button>
+
                         </form>
                     </div>
                 </div>
@@ -64,7 +66,8 @@
                 saved : false,
                 message : '',
                 name : '',
-                desc : ''
+                desc : '',
+                processing : false
             }
         },
         methods: {

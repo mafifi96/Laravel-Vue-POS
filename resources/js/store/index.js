@@ -14,7 +14,6 @@ const store = createStore({
             user: {},
             _lang : 'en',
             _translate : {},
-
         }
     },
     mutations: {

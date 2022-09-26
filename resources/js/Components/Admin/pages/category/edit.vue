@@ -38,11 +38,10 @@
                                 <textarea class="form-control form-control-user" v-model="desc"
                                     placeholder="Description"></textarea>
                             </div>
-<div class="text-center">
-                            <button :disabled="processing" type="submit"
-                                class=" btn btn-primary btn-user">
-                                {{processing ? "Updating..." : "Save"}}
-                            </button>
+                            <div class="text-center">
+                                <button :disabled="processing" type="submit" class=" btn btn-primary btn-user">
+                                    {{processing ? "Updating..." : "Save"}}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -83,8 +82,8 @@
                     this.desc = ''
                 }).catch(err => {
                     this.errors = err.response.data
-                }).finally(()=>{
-                    this.processing  = false
+                }).finally(() => {
+                    this.processing = false
                 })
             },
             getCategory() {
@@ -102,7 +101,7 @@
             $route(to, from) {
                 this.id = this.$route.params.id
                 this.getCategory()
-                document.title = "Store | Category - "+ this.name
+                document.title = "Store | Category - " + this.name
             }
         },
         mounted() {

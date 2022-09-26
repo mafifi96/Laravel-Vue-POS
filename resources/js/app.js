@@ -27,40 +27,31 @@ app.use(store).use(router).mount("#app")
 
 
 
-/* setTimeout(function () {
+setTimeout(function () {
     axios.get("/api/user").then(res=>{
-
     }).catch(err=>{
          localStorage.clear()
 
         router.push({name: 'login'})
 
     })
-}, 500)
-*/
-/* router.beforeEach((to, from, next) => {
+}, 2000)
 
-    if (to.meta.middleware == "admin" || to.meta.middleware == "supervisor") {
+ router.beforeEach((to, from, next) => {
 
-        if (store.getters.isAdmin && store.getters.authenticated) {
-            next()
-        } else {
+        if (to.meta.middleware == "admin" && !store.getters.isAdmin ) {
+
             localStorage.clear()
 
             next({name: "login"})
         }
 
-        if (store.getters.isSupervisor && store.getters.authenticated) {
-            next()
-        } else {
+        if (to.meta.middleware == "supervisor" && !store.getters.isSupervisor) {
+
             localStorage.clear()
 
             next({name: "login"})
         }
 
-
-    } else {
-        next()
-    }
+    next()
 })
- */

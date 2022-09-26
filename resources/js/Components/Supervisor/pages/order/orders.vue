@@ -32,7 +32,7 @@
                             <tbody>
                                 <tr v-for="(order,index) in orders" :key="index">
                                     <td scope="row">
-                                        <router-link :to="{name :'order', params :{id : order.id}}">
+                                        <router-link :to="{name :'supervisor.orders.order', params :{id : order.id}}">
                                             {{order.id}}
                                         </router-link>
                                     </td>

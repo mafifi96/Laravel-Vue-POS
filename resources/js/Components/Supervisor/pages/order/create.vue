@@ -27,8 +27,7 @@
                             </div>
                         </div>
 
-
-                        <div v-if="saved" class="alert alert-success alert-dismissible fade show m-2" role="alert">
+                        <div v-if="saved" class="alert alert-success alert-dismissible fade show m-2 text-capiatlize" role="alert">
                             {{message}}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -251,7 +250,7 @@
         methods: {
             async getCategories() {
 
-                await axios.get(`/api/sv/categories`)
+                await axios.get(`/api/categories`)
                     .then(res => {
                         this.categories = res.data
                     }).catch(err => {

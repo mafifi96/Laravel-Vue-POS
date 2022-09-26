@@ -65,7 +65,7 @@ import moment from 'moment'
         },
         methods: {
             getCategories() {
-                axios.get("/api/sv/categories").then(res => {
+                axios.get("/api/categories").then(res => {
                     this.categories = res.data;
                 }).catch(err => {
                     console.log(err)

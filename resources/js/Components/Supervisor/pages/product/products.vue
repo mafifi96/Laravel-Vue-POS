@@ -106,7 +106,7 @@
         },
         methods: {
             getProducts() {
-                axios.get("/api/sv/products").then(res => {
+                axios.get("/api/products").then(res => {
 
                     this.products = res.data;
 

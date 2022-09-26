@@ -49,7 +49,7 @@
         },
         methods: {
             getCategory() {
-                axios.get("/api/sv/categories/" + this.Id).then(res => {
+                axios.get("/api/categories/" + this.Id).then(res => {
 
                     this.category = res.data;
                     document.title = "Store | "+ this.category.name
