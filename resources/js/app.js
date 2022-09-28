@@ -1,4 +1,5 @@
 import './assets'
+
 import './bootstrap';
 
 import { createApp } from 'vue/dist/vue.esm-bundler'
@@ -10,7 +11,6 @@ import App from './App.vue'
 import router from './routes'
 
 import store from './store'
-
 
 const app = createApp({
     components :{

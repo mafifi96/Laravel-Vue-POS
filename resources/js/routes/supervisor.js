@@ -16,9 +16,6 @@ import Customer from '../Components/Supervisor/pages/customer/customer.vue'
 import CustomersCreate from '../Components/Supervisor/pages/customer/create.vue'
 import CustomersEdit from '../Components/Supervisor/pages/customer/edit.vue'
 
-
-
-
 const routes = [
     {
         path: '/profile',
