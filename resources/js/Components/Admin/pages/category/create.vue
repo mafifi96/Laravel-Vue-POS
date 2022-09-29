@@ -23,7 +23,7 @@
 
                             <div v-show="saved"  class="alert alert-success alert-dismissible fade show" role="alert">
                                 <p v-html="message"></p>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                <button @click="!saved" type="button" class="btn-close" data-bs-dismiss="alert"
                                     aria-label="Close"></button>
                             </div>
 

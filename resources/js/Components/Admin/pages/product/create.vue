@@ -24,7 +24,7 @@
 
                         <div v-if="saved" class="alert alert-success alert-dismissible fade show m-3" role="alert">
                             {{message}}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button @click="!saved" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
 
                     </div>
@@ -102,7 +102,7 @@ import Errors from '../../../inc/ValidationErrors.vue'
                 },
                 saved: false,
                 message: null,
-                processing: true,
+                processing: false,
                 categories: [],
                 brands: [],
                 errors: null,
