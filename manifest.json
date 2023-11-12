@@ -1,0 +1,33 @@
+{
+  "resources/js/app.js": {
+    "file": "assets/app.525314b4.js",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "lang/ar.json",
+      "lang/en.json"
+    ],
+    "css": [
+      "assets/app.976fb63c.css"
+    ]
+  },
+  "lang/ar.json": {
+    "file": "assets/ar.8390e0fe.js",
+    "src": "lang/ar.json",
+    "isDynamicEntry": true
+  },
+  "lang/en.json": {
+    "file": "assets/en.277185a3.js",
+    "src": "lang/en.json",
+    "isDynamicEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app.5f41f281.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.css": {
+    "file": "assets/app.976fb63c.css",
+    "src": "resources/js/app.css"
+  }
+}

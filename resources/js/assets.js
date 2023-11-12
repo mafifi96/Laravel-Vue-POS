@@ -1,0 +1,6 @@
+import '../css/bootstrap.min.css'
+import '../css/sb-admin-2.min.css'
+import '../css/styles.css'
+import '../assets/js/jquery-3.6.0.js'
+import '../assets/js/bootstrap.min.js'
+import '../assets/js/sb-admin-2.min.js'
