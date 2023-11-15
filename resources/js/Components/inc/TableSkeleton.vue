@@ -1,61 +1,29 @@
 <template>
-    <table cellpadding="2" cellspacing="2" style="width:100%" class="skeleton">
+    <table style="width:100%" class="skeleton">
+        
         <thead>
             <tr class="skeleton-loader">
-                <th><div class="placeholder"></div></th>
-                <th><div class="placeholder"></div></th>
-                <th><div class="placeholder"></div></th>
-                <th><div class="placeholder"></div></th>
-                <th><div class="placeholder"></div></th>
+
+                <th v-for="n,i in parseInt(cols)" :key="i"><div class="placeholder"></div></th>
+                
             </tr>
         </thead>
         <tbody>
             <!-- Skeleton Loader -->
-            <tr class="skeleton-loader">
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-
+            <tr  class="skeleton-loader" v-for="n,i in parseInt(cols)" :key="i">
+                <td v-for="n,i in parseInt(cols)" :key="i"><div class="placeholder"></div></td>
             </tr>
-            <tr class="skeleton-loader">
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-
-                <td><div class="placeholder"></div></td>
-            </tr>
-            <tr class="skeleton-loader">
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-            </tr>
-            <tr class="skeleton-loader">
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-            </tr>
-            <tr class="skeleton-loader">
-                <td><div class="placeholder"></div></td>
-
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-                <td><div class="placeholder"></div></td>
-            </tr>
-
             <!-- End Skeleton Loader -->
         </tbody>
     </table>
 </template>
+<script setup>
+
+defineProps({
+    cols : Number
+})
+
+</script>
 <style scoped>
 
 .skeleton {
@@ -65,11 +33,12 @@
     border-spacing: 100px;
 }
 td ,th{
-    padding: 15px;}
+    padding: 11px;
+}
 
  th{
     padding: 20px 16px;
-    border-bottom: 2px solid #eee;
+    border-bottom: 3px solid #eee;
 }
 td .placeholder  {
     background: #e0dddd;
@@ -77,24 +46,25 @@ td .placeholder  {
     padding: 15px 20px;
     animation: bg-pulse 1.8s infinite ease-in-out;
 }
+
 th .placeholder{
     background-color: #c5c5c5;
     padding: 17px 20px;
     border-radius: 3px;
 }
- 
+
 @keyframes bg-pulse{
 
     0%{
-        background-color:  #c5c5c5;
+        background-color:  #c7c6c6;
         
     }
     50%{
-        background-color:  #9e9b9b;
+        background-color:  #dfd4d4;
         
     }
     100%{
-        background-color:  #c5c5c5;
+        background-color:  #c7c6c6;
         
     }
     

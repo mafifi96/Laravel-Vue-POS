@@ -34,7 +34,11 @@
                             <h6 class="h6 text-muted">All products</h6>
                         </div>
                         <div class="card-body table-responsive">
-                            <table class="table table-bordered text-center">
+                            <template v-if="loading">
+                                <skeleton cols="8"></skeleton>
+                            </template>
+                            <template v-else>
+                                <table class="table table-bordered text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -82,6 +86,8 @@
 
                                 </tbody>
                             </table>
+                            
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -101,7 +107,8 @@
 
             return {
                 products: {},
-                _id : null
+                _id : null,
+                loading: true
             }
         },
         methods: {
@@ -112,6 +119,8 @@
 
                 }).catch(err => {
                     console.log(err)
+                }).finally(()=> {
+                    this.loading = false
                 })
             },
             warning(id) {

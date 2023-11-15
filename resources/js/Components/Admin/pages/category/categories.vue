@@ -20,30 +20,36 @@
                         <h6 class="h6 text-muted">All Categories</h6>
                     </div>
                     <div class="card-body table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Careated At</th>
-                                    <th scope="col">Last Update</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <template v-if="loading">
+                            <skeleton cols="4"></skeleton>
+                        </template>
+                        <template v-else>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Careated At</th>
+                                        <th scope="col">Last Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
 
-                                <tr v-for="(category, index) in categories" :key="category.id">
-                                    <th scope="row">{{ (index + 1)}}</th>
-                                    <td>
-                                        <router-link :to="{name : 'admin.category' , params : {id : category.id}}"
-                                            class="btn text-decoration-none">{{category.name}}</router-link>
-                                    </td>
-                                    <td>{{formateDate(category.created_at)}}</td>
-                                    <td>{{formateDate(category.updated_at)}}</td>
-                                </tr>
+                                    <tr v-for="(category, index) in categories" :key="category.id">
+                                        <th scope="row">{{ (index + 1)}}</th>
+                                        <td>
+                                            <router-link :to="{name : 'admin.category' , params : {id : category.id}}"
+                                                class="btn text-decoration-none">{{category.name}}</router-link>
+                                        </td>
+                                        <td>{{formateDate(category.created_at)}}</td>
+                                        <td>{{formateDate(category.updated_at)}}</td>
+                                    </tr>
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </template>
+
                     </div>
                 </div>
             </div>
@@ -54,13 +60,14 @@
 
 </template>
 <script>
-import moment from 'moment'
+    import moment from 'moment'
 
     export default {
         data: function () {
 
             return {
-                categories: []
+                categories: [],
+                loading: true
             }
         },
         methods: {
@@ -69,9 +76,11 @@ import moment from 'moment'
                     this.categories = res.data;
                 }).catch(err => {
                     console.log(err)
+                }).finally(() => {
+                    this.loading = false
                 })
             },
-            formateDate(value){
+            formateDate(value) {
                 return moment(value).format('MMMM Do YYYY, h:mm:ss a');
             }
         },

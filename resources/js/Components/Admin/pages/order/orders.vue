@@ -18,10 +18,45 @@
                     </div>
                     <div class="card-body ">
                         <template v-if="loading">
-<table-skeleton></table-skeleton>
+                            <skeleton cols="6"></skeleton>
                         </template>
-                        <template>
-                            
+                        <template v-else>
+                            <table class="table table-bordered text-center ">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Customer</th>
+                                        <th scope="col">Careated At</th>
+                                        <th scope="col"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(order,index) in orders" :key="index">
+                                        <td scope="row">
+                                            <router-link :to="{name :'order', params :{id : order.id}}">
+                                                {{order.id}}
+                                            </router-link>
+                                        </td>
+                                        <td>{{order.status}}</td>
+                                        <td>&dollar;{{currency(order.total_price) }}</td>
+                                        <td>{{order.user.name}}</td>
+                                        <td>{{formateDate(order.created_at)}}</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+
+                                                <a @click.prevent="warning(order.id)" :data-id="order.id"
+                                                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
+                                                </a>
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
                         </template>
                     </div>
                 </div>
@@ -34,12 +69,9 @@
 
 <script>
     import moment from 'moment'
-    import TableSkeleton from '../../../inc/TableSkeleton.vue';
-
+    
     export default {
-        components : {
-            TableSkeleton
-        },
+        
         data: function () {
             return {
                 orders: [],
@@ -53,7 +85,7 @@
                 }).catch(err => {
                     console.log(err);
                 }).finally(() => {
-                    //this.loading = false;
+                    this.loading = false;
 
                 });
             },

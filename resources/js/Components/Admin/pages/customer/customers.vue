@@ -21,7 +21,11 @@
                             <h6 class="h6 text-muted">All customers</h6>
                         </div>
                         <div class="card-body table-responsive">
-                            <table class="table table-bordered text-center">
+                            <template v-if="loading">
+<skeleton cols="7"></skeleton>
+                            </template>
+                            <template v-else>
+                                <table class="table table-bordered text-center">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -68,6 +72,8 @@
 
                                 </tbody>
                             </table>
+                            </template>
+                            
                         </div>
                     </div>
                 </div>
@@ -87,17 +93,21 @@ import moment from 'moment'
 export default {
     data : () => ({
         customers : {},
-        _id : null
+        _id : null,
+        loading : true
     }),
     methods: {
-            getcustomers() {
-                axios.get("/api/customers").then(res => {
+            async getcustomers() {
+                await axios.get("/api/customers").then(res => {
 
                     this.customers = res.data.customers;
 
                 }).catch(err => {
                     console.log(err)
+                }).finally(()=>{
+                    this.loading = false
                 })
+
             },
             warning(id) {
                 this._id = id

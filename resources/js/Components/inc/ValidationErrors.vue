@@ -12,5 +12,4 @@
     export default {
         props: ['errors']
     }
-
 </script>
