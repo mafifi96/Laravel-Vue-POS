@@ -16,43 +16,13 @@
                     <div class="card-header">
                         <h6 class="h6 text-muted text-uppercase">all orders</h6>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-bordered text-center ">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Careated At</th>
-                                    <th scope="col"></th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(order,index) in orders" :key="index">
-                                    <td scope="row">
-                                        <router-link :to="{name :'order', params :{id : order.id}}">
-                                            {{order.id}}
-                                        </router-link>
-                                    </td>
-                                    <td>{{order.status}}</td>
-                                    <td>&dollar;{{currency(order.total_price) }}</td>
-                                    <td>{{order.user.name}}</td>
-                                    <td>{{formateDate(order.created_at)}}</td>
-                                    <td>
-                                            <div class="btn-group" role="group">
-
-                                                <a @click.prevent="warning(order.id)" :data-id="order.id"
-                                                    class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>
-                                                </a>
-
-                                            </div>
-                                        </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body ">
+                        <template v-if="loading">
+<table-skeleton></table-skeleton>
+                        </template>
+                        <template>
+                            
+                        </template>
                     </div>
                 </div>
             </div>
@@ -63,76 +33,76 @@
 </template>
 
 <script>
-import moment from 'moment'
+    import moment from 'moment'
+    import TableSkeleton from '../../../inc/TableSkeleton.vue';
 
     export default {
-
+        components : {
+            TableSkeleton
+        },
         data: function () {
             return {
-                orders: []
-            }
+                orders: [],
+                loading: true
+            };
         },
         methods: {
             async getOrders() {
                 await axios.get("/api/orders").then(res => {
-
-                    this.orders = res.data.orders
-
+                    this.orders = res.data.orders;
                 }).catch(err => {
-                    console.log(err)
-                })
+                    console.log(err);
+                }).finally(() => {
+                    //this.loading = false;
+
+                });
             },
             formateDate(date) {
-                return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+                return moment(date).format("MMMM Do YYYY, h:mm:ss a");
             },
             currency(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                let val = (value / 1).toFixed(2).replace(".", ",");
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             },
             warning(id) {
-
                 Swal.fire({
-                    title: 'Warning!',
-                    text: 'Do you want to delete this order!',
-                    icon: 'warning',
-                    confirmButtonText: 'yes',
+                    title: "Warning!",
+                    text: "Do you want to delete this order!",
+                    icon: "warning",
+                    confirmButtonText: "yes",
                     showCancelButton: true
                 }).then(res => {
                     if (res.isConfirmed) {
-                        this.deleteOrder(id)
+                        this.deleteOrder(id);
                     }
-                })
+                });
             },
             async deleteOrder(id) {
-
                 await axios.delete(`/api/orders/${id}`).then(res => {
-
                     Swal.fire({
-                        title: 'deleted!',
-                        text: 'Order Deleted Successfully..!',
-                        icon: 'success',
+                        title: "deleted!",
+                        text: "Order Deleted Successfully..!",
+                        icon: "success",
                         showCancelButton: true
-                    })
-                    this.getOrders()
+                    });
+                    this.getOrders();
                 }).catch(err => {
-
                     Swal.fire({
-                        title: 'error!',
-                        text: 'something went wrong..!',
-                        icon: 'error',
+                        title: "error!",
+                        text: "something went wrong..!",
+                        icon: "error",
                         showCancelButton: true
-                    })
-
-                })
-
+                    });
+                });
             }
         },
         mounted() {
-            this.getOrders()
-            document.title = "Store | Orders"
-
+            this.getOrders();
+            document.title = "Store | Orders";
+        },
+        components: {
+            TableSkeleton
         }
-
     }
 
 </script>

@@ -13,13 +13,14 @@
         <script src="{{asset("js/fontawesome.min.js")}}"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="{{asset("build/assets/app.976fb63c.css")}}">
-
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="antialiased">
         <div id="app">
             <App></App>
         </div>
-<script src="{{asset("js/app.js")}}"></script>
+<!-- <script src="{{asset("js/app.js")}}"></script>
+ -->
 
 <noscript>
     please enable js to continue

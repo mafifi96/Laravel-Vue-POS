@@ -34,7 +34,6 @@ class OrderController extends Controller
             $items = $products->mapToGroups(function ($item, $key) use (&$data) {
 
                 return $data[$item['id']] = ['quantity' => $item['currentQuantity']];
-
             })->toArray();
 
             $order = Order::Create([
@@ -57,14 +56,19 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'order confirmed', 'status' => true], 200);
     }
+
+    
     public function index()
     {
+
+
         $orders = Order::latest()->get();
 
         $orders->load("user");
 
         return response()->json(['orders' => $orders]);
     }
+
     public function show($id)
     {
         $order = Order::findOrFail($id);
