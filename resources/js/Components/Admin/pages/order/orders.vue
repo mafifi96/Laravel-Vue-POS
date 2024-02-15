@@ -69,9 +69,9 @@
 
 <script>
     import moment from 'moment'
-    
+
     export default {
-        
+
         data: function () {
             return {
                 orders: [],
@@ -131,9 +131,6 @@
         mounted() {
             this.getOrders();
             document.title = "Store | Orders";
-        },
-        components: {
-            TableSkeleton
         }
     }
 

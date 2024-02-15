@@ -1,11 +1,11 @@
 <template>
     <table style="width:100%" class="skeleton">
-        
+
         <thead>
             <tr class="skeleton-loader">
 
                 <th v-for="n,i in parseInt(cols)" :key="i"><div class="placeholder"></div></th>
-                
+
             </tr>
         </thead>
         <tbody>
@@ -20,14 +20,14 @@
 <script setup>
 
 defineProps({
-    cols : Number
+    cols : String
 })
 
 </script>
 <style scoped>
 
 .skeleton {
-    
+
     border : 3px solid #eee;
     padding: 10px;
     border-spacing: 100px;
@@ -57,16 +57,16 @@ th .placeholder{
 
     0%{
         background-color:  #c7c6c6;
-        
+
     }
     50%{
         background-color:  #dfd4d4;
-        
+
     }
     100%{
         background-color:  #c7c6c6;
-        
+
     }
-    
+
 }
 </style>

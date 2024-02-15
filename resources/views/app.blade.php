@@ -12,16 +12,14 @@
         <script src="{{asset("js/jquery-3.6.0.js")}}"></script>
         <script src="{{asset("js/fontawesome.min.js")}}"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <link rel="stylesheet" href="{{asset("build/assets/app.976fb63c.css")}}">
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        {{-- <link rel="stylesheet" href="{{asset("build/assets/app.976fb63c.css")}}"> --}}
+        @vite('resources/css/app.css')
     </head>
     <body class="antialiased">
         <div id="app">
             <App></App>
         </div>
-<!-- <script src="{{asset("js/app.js")}}"></script>
- -->
-
+        @vite('resources/js/app.js')
 <noscript>
     please enable js to continue
 </noscript>
